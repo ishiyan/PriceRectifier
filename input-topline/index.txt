@@ -1,0 +1,392 @@
+select t.fondsid, t.fst_fondstype_nr, t.val_valutacode, t.fondsnaam, t.naam_kort, t.symbool, t.symbool_long, t.cfi_code,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 1) as ISIN,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 15) as RECONCILIATIEISIN,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 2) as TICKER,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 4) as SYMBOLINDEX,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 5) as CUISP,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 6) as RIC,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 7) as BLOOMBERG,
+  (select (select e.mic from FONDSUSER.FON_EXCHANGE_SEGMENTS e where e.brs_beursid = n.brs_beursid and e.exchange_segment_id = n.exs_exchange_segment_id) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as MIC,
+  (select (select e.exs_name from FONDSUSER.FON_EXCHANGE_SEGMENTS e where e.brs_beursid = n.brs_beursid and e.exchange_segment_id = n.exs_exchange_segment_id) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as EXCANGE_SEGMENT,
+  (select (select e.eod_datetime from FONDSUSER.FON_EXCHANGE_SEGMENTS e where e.brs_beursid = n.brs_beursid and e.exchange_segment_id = n.exs_exchange_segment_id) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as EOD_DATETIME,
+  (select (select x.name from FONDSUSER.FON_EXCHANGES x where x.exchange_nr = n.brs_beursid) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as EXCANGE_NAME,
+  (select (select x.time_zone from FONDSUSER.FON_EXCHANGES x where x.exchange_nr = n.brs_beursid) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as EXCANGE_TIMEZONE
+from FONDSUSER.FON_FONDSEN t
+where t.fondsid in
+();
+
+
+close vloume=0 ------------------------------------------------------------- idohlcv
+ohlcv vloume=0
+3830 DAX Index (DAX) >2003
+3831 Dow mini future (DJI) usd > 2003
+27463 Nasdaq 100 mini future (NAS) usd >2003
+131803 Nasdaq 100 Index [D] (N100) usd >2003
+12573 S&P 500 mini future (SP5) usd >2003
+193827 Swiss Market Index (SMI) CHF >2006
+191263 Nikkei 225 (N225) JPY >2006
+206611 S&P Midcap 400 Index (MDM) usd >2006
+206610 Russel 2000 Index (80) usd >2006
+248236 Dow Jones Global exUS Index (DWX) usd >2008
+408159 Crude Oil Future (OIL) usd >2011
+955256 CBOE S&P 500 Volatility Index (VIX) usd >2013
+2341193 MDAX Index (MDAX) >2016
+3168747 E-Mini Crude Oil Future (QM) usd >2017
+3366651 Russell 2000 mini future (RUT) usd >2017
+2986509 Stoxx Global 1800 EUR (price) (SXW1E) >2017 (ohlc)
+3762928 Stoxx Global 3000 PR (SXGBMP) >2018 (ohlc)
+4852630 U.S. Treasury Bond (ZB) Cont Futures (38839) usd >2019
+5037445 DJX Mini-Dow Jones Index >2019
+728740 Lyxor ETF Dow Jones Ind Avg (DJE, CEOIEU)eur >2012, ohlcv, volume
+4743211 iShares Dow Jones Industrial AVRG (USD)usd (CIND,CEOGES) >2018, ohlcv, volume
+
+select t.fondsid, t.fst_fondstype_nr, t.val_valutacode, t.fondsnaam, t.naam_kort, t.symbool, t.symbool_long, t.cfi_code,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 1) as ISIN,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 15) as RECONCILIATIEISIN,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 2) as TICKER,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 4) as SYMBOLINDEX,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 5) as CUISP,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 6) as RIC,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 7) as BLOOMBERG,
+  (select (select e.mic from FONDSUSER.FON_EXCHANGE_SEGMENTS e where e.brs_beursid = n.brs_beursid and e.exchange_segment_id = n.exs_exchange_segment_id) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as MIC,
+  (select (select e.exs_name from FONDSUSER.FON_EXCHANGE_SEGMENTS e where e.brs_beursid = n.brs_beursid and e.exchange_segment_id = n.exs_exchange_segment_id) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as EXCANGE_SEGMENT,
+  (select (select e.eod_datetime from FONDSUSER.FON_EXCHANGE_SEGMENTS e where e.brs_beursid = n.brs_beursid and e.exchange_segment_id = n.exs_exchange_segment_id) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as EOD_DATETIME,
+  (select (select x.name from FONDSUSER.FON_EXCHANGES x where x.exchange_nr = n.brs_beursid) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as EXCANGE_NAME,
+  (select (select x.time_zone from FONDSUSER.FON_EXCHANGES x where x.exchange_nr = n.brs_beursid) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as EXCANGE_TIMEZONE
+from FONDSUSER.FON_FONDSEN t
+where t.fondsid in
+(3830,3831,27463,131803,12573,193827,191263,206611,206610,248236,408159,955256,2341193,3168747,3366651,2986509,3762928,4852630,5037445,728740,4743211);
+
+select c.fon_fondsid, c.datum, o.koers, h.koers, l.koers, c.koers, c.omzet from QDS.QDS_KOERSEN_HIST c
+join QDS.QDS_KOERSEN_HIST o on o.fon_fondsid = c.fon_fondsid and o.datum = c.datum and o.kty_koerstypenummer=1
+join QDS.QDS_KOERSEN_HIST h on h.fon_fondsid = c.fon_fondsid and h.datum = c.datum and h.kty_koerstypenummer=4
+join QDS.QDS_KOERSEN_HIST l on l.fon_fondsid = c.fon_fondsid and l.datum = c.datum and l.kty_koerstypenummer=5
+where c.fon_fondsid in (
+3830   ,
+3831   ,
+27463  ,
+131803 ,
+12573  ,
+193827 ,
+191263 ,
+206611 ,
+206610 ,
+248236 ,
+408159 ,
+955256 ,
+2341193,
+3168747,
+3366651,
+2986509,
+3762928,
+4852630,
+5037445,
+728740 ,
+4743211
+) and c.kty_koerstypenummer=3 order by c.fon_fondsid asc, c.datum asc;
+
+select t.fon_fondsid, t.datum, 
+(select c.koers from QDS.QDS_KOERSEN_HIST c where c.fon_fondsid = t.fon_fondsid and c.datum = t.datum and c.kty_koerstypenummer = 1) as OPEN,
+(select c.koers from QDS.QDS_KOERSEN_HIST c where c.fon_fondsid = t.fon_fondsid and c.datum = t.datum and c.kty_koerstypenummer = 4) as HIGH,
+(select c.koers from QDS.QDS_KOERSEN_HIST c where c.fon_fondsid = t.fon_fondsid and c.datum = t.datum and c.kty_koerstypenummer = 5) as LOW,
+t.koers, t.omzet from QDS.QDS_KOERSEN_HIST t
+where t.fon_fondsid in (
+3830   ,
+3831   ,
+27463  ,
+131803 ,
+12573  ,
+193827 ,
+191263 ,
+206611 ,
+206610 ,
+248236 ,
+408159 ,
+955256 ,
+2341193,
+3168747,
+3366651,
+2986509,
+3762928,
+4852630,
+5037445,
+728740 ,
+4743211
+) and t.kty_koerstypenummer=3 order by t.fon_fondsid asc, t.datum asc;
+
+
+
+close vloume=0 ------------------------------------------------------------- idc
+456487  DJ EURO STOXX Total Market (Total Ret) >1991
+1319887 Stoxx 1800 ex apac (t/m sep-14 Stoxx EU) >1991 close
+3117890 BAM Weighted Low Risk Benchmark IDX (AMBECONF) >2012
+3117889 Barclays 1-5 Year Euro Corp Bond IDX (B15YECB) >2012
+3117888 Barclays 3-5 Year Euro Treasury Bond IDX (B35YETB) >2012
+2147695 STOXX Global 1800 ex Asia/Pacific NR (SXW9R) >2001 close
+2791385 STOXX 1800 Net Return (SXW1R) >2016 (close only)
+3762929 Stoxx Global 3000 NR (SXGBMR) >2019 (close only)
+4431487 Defensief vanaf 02-01-2019 >2018 close
+4431488 Behoedzaam vanaf 02-01-2019 >2018 close
+4431489 Offensief vanaf 02-01-2019 >2018 close
+4431490 Speculatief vanaf 02-01-2019 >2018 close
+4431492 Zeer speculatief vanaf 02-01-2019 >2018 close
+2072883 Defensief vanaf 12-2015 >2001 close
+2072884 Behoedzaam vanaf 12-2015 >2001 close
+2072885 Offensief vanaf 12-2015 >2001 close
+2072886 Speculatief vanaf 12-2015 >2001 close
+1495636 Zeer Speculatief vanaf 12-2015 >1991 close
+3368185 Binck Euro Bond Fund Sicav NL           Binck Euro Bond Fund  2017-07-11  LU1646583507  vrs 27057
+3368184 Binck Gl Dev Markets Eq Fund Sicav NL   Binck Gl Dev Markets  2017-07-11  LU1646583416  vrs 27079
+2919563 Binck Euro Bond Fund                    Binck Euro Bond Fund  2016-11-24  LU1527460916  vrs 16977
+2919561 Binck Global Developed Markets Eq Fund  Binck Global Develop  2016-11-24  LU1527460247  vrs 16942
+
+select t.fondsid, t.fst_fondstype_nr, t.val_valutacode, t.fondsnaam, t.naam_kort, t.symbool, t.symbool_long, t.cfi_code,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 1) as ISIN,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 15) as RECONCILIATIEISIN,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 2) as TICKER,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 4) as SYMBOLINDEX,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 5) as CUISP,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 6) as RIC,
+  (select c.value from FONDSUSER.FON_SECURITY_CODES c where c.sec_security_id = t.fondsid and c.security_code_type = 7) as BLOOMBERG,
+  (select (select e.mic from FONDSUSER.FON_EXCHANGE_SEGMENTS e where e.brs_beursid = n.brs_beursid and e.exchange_segment_id = n.exs_exchange_segment_id) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as MIC,
+  (select (select e.exs_name from FONDSUSER.FON_EXCHANGE_SEGMENTS e where e.brs_beursid = n.brs_beursid and e.exchange_segment_id = n.exs_exchange_segment_id) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as EXCANGE_SEGMENT,
+  (select (select e.eod_datetime from FONDSUSER.FON_EXCHANGE_SEGMENTS e where e.brs_beursid = n.brs_beursid and e.exchange_segment_id = n.exs_exchange_segment_id) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as EOD_DATETIME,
+  (select (select x.name from FONDSUSER.FON_EXCHANGES x where x.exchange_nr = n.brs_beursid) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as EXCANGE_NAME,
+  (select (select x.time_zone from FONDSUSER.FON_EXCHANGES x where x.exchange_nr = n.brs_beursid) from FONDSUSER.FON_NOTERINGEN n where n.fon_fondsid = t.fondsid) as EXCANGE_TIMEZONE
+from FONDSUSER.FON_FONDSEN t
+where t.fondsid in
+(456487,1319887,3117890,3117889,3117888,2147695,2791385,3762929,4431487,4431488,4431489,4431490,4431492,2072883,2072884,2072885,2072886,1495636,3368185,3368184,2919563,2919561);
+
+select t.fon_fondsid, t.datum, t.koers from QDS.QDS_KOERSEN_HIST t where t.fon_fondsid in (
+456487 ,
+1319887,
+3117890,
+3117889,
+3117888,
+2147695,
+2791385,
+3762929,
+4431487,
+4431488,
+4431489,
+4431490,
+4431492,
+2072883,
+2072884,
+2072885,
+2072886,
+1495636,
+3368185,
+3368184,
+2919563,
+2919561
+) and t.kty_koerstypenummer=3 order by t.fon_fondsid asc, t.datum asc;
+
+select t.fon_fondsid, t.datum, t.koers,
+(select c.koers from QDS.QDS_KOERSEN_HIST c where c.fon_fondsid = t.fon_fondsid and c.datum = t.datum and c.kty_koerstypenummer = 1) as OPEN,
+(select c.koers from QDS.QDS_KOERSEN_HIST c where c.fon_fondsid = t.fon_fondsid and c.datum = t.datum and c.kty_koerstypenummer = 4) as HIGH,
+(select c.koers from QDS.QDS_KOERSEN_HIST c where c.fon_fondsid = t.fon_fondsid and c.datum = t.datum and c.kty_koerstypenummer = 5) as LOW,
+t.omzet from QDS.QDS_KOERSEN_HIST t where t.fon_fondsid in (
+456487 ,
+1319887,
+3117890,
+3117889,
+3117888,
+2147695,
+2791385,
+3762929,
+4431487,
+4431488,
+4431489,
+4431490,
+4431492,
+2072883,
+2072884,
+2072885,
+2072886,
+1495636,
+3368185,
+3368184,
+2919563,
+2919561
+) and t.kty_koerstypenummer=3 order by t.fon_fondsid asc, t.datum asc;
+
+
+456487  DJ EURO STOXX Total Market (Total Ret)
+select * from QDS.QDS_KOERSEN_HIST t where t.fon_fondsid=456487 and t.kty_koerstypenummer=3 order by t.datum asc
+
+# 2147695 STOXX Global 1800 ex Asia/Pacific NR (SXW9R)
+# select * from QDS.QDS_KOERSEN_HIST t where t.fon_fondsid=2147695 and t.kty_koerstypenummer=3 order by t.datum asc
+
+# 2791385 STOXX 1800 Net Return (SXW1R)
+# select * from QDS.QDS_KOERSEN_HIST t where t.fon_fondsid=2791385 and t.kty_koerstypenummer=3 order by t.datum asc
+
+
+
+select c.datum, o.koers, h.koers, l.koers, c.koers, c.omzet from QDS.QDS_KOERSEN_HIST c
+join QDS.QDS_KOERSEN_HIST o on o.fon_fondsid = c.fon_fondsid and o.datum = c.datum and o.kty_koerstypenummer=1
+join QDS.QDS_KOERSEN_HIST h on h.fon_fondsid = c.fon_fondsid and h.datum = c.datum and h.kty_koerstypenummer=4
+join QDS.QDS_KOERSEN_HIST l on l.fon_fondsid = c.fon_fondsid and l.datum = c.datum and l.kty_koerstypenummer=5
+where c.fon_fondsid=2986509 and c.kty_koerstypenummer=3;
+
+
+
+
+
+1 = open
+3 = close
+4 = high
+5 = low
+
+
+
+alex benchmarks
+
+456487   end date 2014-09-16
+1319887
+2072868  end date 2014-09-16
+2072881  end date 2015-12-16
+2072882  end date 2015-12-16
+2072883  end date 2019-01-01
+2072884  end date 2019-01-01
+2072885  end date 2019-01-01
+2072886  end date 2019-01-01
+2147686  end date 2015-12-16
+2147687 2015-12-16
+2147690 2015-12-16
+2147695 2019-01-01
+2149501 2014-09-16
+2149502 2014-09-16
+2149503 2014-09-16
+2149504 2014-09-16
+
+3829    AEX-Index
+
+456487  DJ EURO STOXX Total Market (Total Ret)
+select * from QDS.QDS_KOERSEN_HIST t where t.fon_fondsid=456487 and t.kty_koerstypenummer=3 order by t.datum asc
+2147695 STOXX Global 1800 ex Asia/Pacific NR (SXW9R)
+
+
+
+2072883 Defensief vanaf 12-2015
+2072884 Behoedzaam vanaf 12-2015
+2072885 Offensief vanaf 12-2015
+2072886 Speculatief vanaf 12-2015
+
+
+1319887 Stoxx 1800 ex apac (t/m sep-14 Stoxx EU)
+1495636 Zeer Speculatief vanaf 12-2015
+4431487 Defensief vanaf 02-01-2019
+4431488 Behoedzaam vanaf 02-01-2019
+4431489 Offensief vanaf 02-01-2019
+4431490 Speculatief vanaf 02-01-2019
+4431492 Zeer speculatief vanaf 02-01-2019
+
+
+select * from FONDSUSER.FON_FONDSEN t where t.fondsnaam like '%%' and t.hft_hoofdfondstype_nr=10
+
+248236 Dow Jones Global exUS Index (DWX) usd
+206610 Russel 2000 Index (80) usd
+3366651 Russell 2000 mini future (RUT) usd
+131797 S&P 500 Index LIGHT
+12573 S&P 500 mini future (SP5) usd
+206611 S&P Midcap 400 Index (MDM) usd
+2341193 MDAX Index (MDAX)
+4273896 Markit iBoxx EUR Liquid Corporates Index
+5037445 DJX Mini-Dow Jones Index
+3117890 BAM Weighted Low Risk Benchmark IDX (AMBECONF)
+3117889 Barclays 1-5 Year Euro Corp Bond IDX (B15YECB)
+3117888 Barclays 3-5 Year Euro Treasury Bond IDX (B35YETB)
+955256 CBOE S&P 500 Volatility Index (VIX) usd
+3164909 Crude Oil CONT Future (OIL-NYMEX) usd
+408159 Crude Oil Future (OIL) usd
+3830 DAX Index (DAX)
+3831 Dow mini future (DJI) usd
+3168747 E-Mini Crude Oil Future (QM) usd
+131803 Nasdaq 100 Index [D] (N100) usd
+27463 Nasdaq 100 mini future (NAS) usd
+191263 Nikkei 225 (N225) JPY
+
+2791385 STOXX 1800 Net Return (SXW1R)
+2986509 Stoxx Global 1800 EUR (price) (SXW1E)
+3762929 Stoxx Global 3000 NR (SXGBMR)
+3762928 Stoxx Global 3000 PR (SXGBMP)
+
+193827 Swiss Market Index (SMI) CHF
+4852630 U.S. Treasury Bond (ZB) Cont Futures (38839) usd
+
+"1808795";"Think Global Equity UCITS ETF"
+"1808796";"Think Global Equity UCITS ETF"
+"5616179";"Think AEX UCITS ETF (Cash)"
+"5616271";"Think Total Market UCITS ETF Defen(Cash)"
+"5616274";"Think Total Market UCITS ETF Neut (Stock"
+"5616277";"Think Global Equity UCITS ETF  (Cash)"
+"5616280";"Think Global Real Estate UCITS ETF(Stock"
+"5616283";"Think iBoxx AAA-AA Govern Bond ETF(Cash)"
+"5616286";"Think Sustainable World UCITS ETF (Stock"
+"5616289";"Think Morningstar N-America Equit (Cash)"
+"5616292";"Think Morningstar High Div UCITS (Stock)"
+"5616209";"Think AEX UCITS ETF (Stock)"
+"5616269";"Think AMX UCITS ETF (Cash)"
+"5616272";"Think Total Market UCITS ETF Def (Stock)"
+"5616275";"Think Total Market UCITS ETF Offen(Cash)"
+"5616278";"Think Global Equity UCITS ETF (Stock)"
+"5616281";"Think iBoxx Corporate Bond ETF (Cash)"
+"5616284";"Think iBoxx AAA-AA Govern Bond (Stock"
+"5616287";"Think European Equity UCITS ETF (Cash)"
+"5616290";"Think Morningstar N-America Equi (Stock)"
+"5616270";"Think AMX UCITS ETF (Stock)"
+"5616273";"Think Total Market UCITS ETF Neutr(Cash)"
+"5616276";"Think Total Market UCITS ETF Offe (Stock"
+"5616279";"Think Global Real Estate UCITS ETF(Cash)"
+"5616282";"Think iBoxx Corporate Bond (Stock"
+"5616285";"Think Sustainable World UCITS ETF (Cash)"
+"5616288";"Think European Equity UCITS ETF (Stock)"
+"5616291";"Think Morningstar High Div UCITS (Cash)"
+"5305746";"Think AEX UCITS ETF (Cash)"
+"5305748";"Think AMX UCITS ETF (Cash)"
+"5305751";"Think European Equity UCITS ETF (Stock)"
+"5305753";"Think Global Equity UCITS ETF (Stock)"
+"5305756";"Think iBoxx AAA-AA Govern Bond ETF(Cash)"
+"5305758";"Think iBoxx Corporate Bond ETF (Cash)"
+"5305936";"Think iBoxx Government Bond (Stock)"
+"5306112";"Think Morningstar N-America Equit (Cash)"
+"5306543";"Think Sustainable World UCITS ETF (Cash)"
+"5306546";"Think Total Market UCITS ETF Def (Stock)"
+"5306549";"Think Total Market UCITS ETF Offen(Cash)"
+"5306042";"Think Morningstar High Div UCITS (Stock)"
+"5306542";"Think Morningstar N-America Equi (Stock)"
+"5306545";"Think Total Market UCITS ETF Defen(Cash)"
+"5306548";"Think Total Market UCITS ETF Neut (Stock"
+"5305750";"Think European Equity UCITS ETF (Cash)"
+"5305752";"Think Global Equity UCITS ETF  (Cash)"
+"5305755";"Think Global Real Estate UCITS ETF(Stock"
+"5305760";"Think iBoxx Government Bond (Cash)"
+"5305747";"Think AEX UCITS ETF (Stock)"
+"5305749";"Think AMX UCITS ETF (Stock)"
+"5305754";"Think Global Real Estate UCITS ETF(Cash)"
+"5305757";"Think iBoxx AAA-AA Govern Bond (Stock"
+"5305759";"Think iBoxx Corporate Bond (Stock"
+"5305982";"Think Morningstar High Div UCITS (Cash)"
+"5306544";"Think Sustainable World UCITS ETF (Stock"
+"5306547";"Think Total Market UCITS ETF Neutr(Cash)"
+"5306550";"Think Total Market UCITS ETF Offe (Stock"
+
+728740 Lyxor ETF Dow Jones Ind Avg (DJE, CEOIEU)
+4743211 iShares Dow Jones Industrial AVRG (USD) (CIND,CEOGES)
+
+
+select t.fondsid, t.val_valutacode, t.fondsnaam, t.symbool, t.cfi_code  from FONDSUSER.FON_FONDSEN t where t.fondsnaam like '%Morningstar%' and t.hft_hoofdfondstype_nr=1 --.hft_hoofdfondstype_nr not in (1,)
+--select t.hft_hoofdfondstype_nr, t.fst_fondstype_nr, t.fondsid, t.val_valutacode, t.fondsnaam, t.symbool, t.cfi_code  from FONDSUSER.FON_FONDSEN t where t.fondsnaam like '%Barclays%'
+
+
+
+		<elem key="1" name="ISIN" description="International Securities Identification Number (ISO 6166)"/>
+		<elem key="2" name="TICKERSYMBOOL" description=""/>
+		<elem key="3" name="AMR" description="Liffe derivatives AMR code"/>
+		<elem key="4" name="SYMBOLINDEX" description="Identifier used by EuroNext from Optiq3 onward."/>
+		<elem key="5" name="CUSIP" description="CUSIP (Committee on Uniform Securities Identification Procedures) Number"/>
+		<elem key="7" name="RIC" description="Reuters Instrument Code"/>
+		<elem key="8" name="BLOOMBERGTICKER" description="BLOOMBERG TICKER"/>
+		<elem key="15" name="RECONCILIATIEISIN" description="Real Isin. Added in case the ISIN code contains the &apos;trading ISIN&apos;"/>
+		<elem key="20" name="COMMONCODE" description="Replaces CEDEL and Euroclear codes"/>

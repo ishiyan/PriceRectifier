@@ -1,0 +1,12 @@
+lr 3368185  2919563 (be)
+hr 3368184  2919561 (be)
+
+NL 3368185 Binck Euro Bond Fund Sicav NL           Binck Euro Bond Fund  2017-07-11  LU1646583507  vrs 27057
+NL 3368184 Binck Gl Dev Markets Eq Fund Sicav NL   Binck Gl Dev Markets  2017-07-11  LU1646583416  vrs 27079
+BE 2919563 Binck Euro Bond Fund                    Binck Euro Bond Fund  2016-11-24  LU1527460916  vrs 16977
+BE 2919561 Binck Global Developed Markets Eq Fund  Binck Global Develop  2016-11-24  LU1527460247  vrs 16942
+
+CFI CFOGMX (all 4)
+
+close = 3
+nav = 32

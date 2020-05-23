@@ -1,0 +1,1 @@
+https://www.twilio.com/blog/2018/05/user-secrets-in-a-net-core-console-app.html
